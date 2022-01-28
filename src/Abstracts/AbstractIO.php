@@ -1,12 +1,13 @@
 <?php
 namespace CarloNicora\Minimalism\Interfaces\Data\Abstracts;
 
+use CarloNicora\Minimalism\Enums\HttpCode;
+use CarloNicora\Minimalism\Exceptions\MinimalismException;
 use CarloNicora\Minimalism\Factories\ObjectFactory;
 use CarloNicora\Minimalism\Interfaces\Data\Interfaces\DataInterface;
 use CarloNicora\Minimalism\Interfaces\Data\Interfaces\DataObjectInterface;
 use CarloNicora\Minimalism\Interfaces\SimpleObjectInterface;
 use Exception;
-use RuntimeException;
 
 abstract class AbstractIO implements SimpleObjectInterface
 {
@@ -33,10 +34,11 @@ abstract class AbstractIO implements SimpleObjectInterface
     ): array
     {
         if ($recordset === [] || $recordset === [[]]){
-            throw new RuntimeException(
-                $recordType === null
+            throw new MinimalismException(
+                status: HttpCode::NotFound,
+                message: $recordType === null
                     ? 'Record Not found'
-                    : $recordType . ' not found'
+                    : $recordType . ' not found',
             );
         }
 
@@ -47,6 +49,7 @@ abstract class AbstractIO implements SimpleObjectInterface
      * @param array $recordset
      * @param string $objectType
      * @return DataObjectInterface
+     * @throws Exception
      */
     protected function returnSingleObject(
         array $recordset,
@@ -54,7 +57,10 @@ abstract class AbstractIO implements SimpleObjectInterface
     ): DataObjectInterface
     {
         if ($recordset === [] || $recordset === [[]]){
-            throw new RuntimeException('Record Not found');
+            throw new MinimalismException(
+                status: HttpCode::NotFound,
+                message: 'Record Not found',
+            );
         }
 
         return new $objectType(
