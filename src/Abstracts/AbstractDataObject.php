@@ -4,9 +4,10 @@ namespace CarloNicora\Minimalism\Interfaces\Data\Abstracts;
 use CarloNicora\Minimalism\Factories\ObjectFactory;
 use CarloNicora\Minimalism\Interfaces\Data\Enums\DataType;
 use CarloNicora\Minimalism\Interfaces\Data\Interfaces\DataObjectInterface;
+use CarloNicora\Minimalism\Interfaces\SimpleObjectInterface;
 use RuntimeException;
 
-abstract class AbstractDataObject implements DataObjectInterface
+abstract class AbstractDataObject implements DataObjectInterface, SimpleObjectInterface
 {
     /** @var array  */
     private array $originalValues = [];

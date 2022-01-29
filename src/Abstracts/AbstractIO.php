@@ -7,6 +7,7 @@ use CarloNicora\Minimalism\Factories\ObjectFactory;
 use CarloNicora\Minimalism\Interfaces\Data\Interfaces\DataInterface;
 use CarloNicora\Minimalism\Interfaces\Data\Interfaces\DataObjectInterface;
 use CarloNicora\Minimalism\Interfaces\SimpleObjectInterface;
+use CarloNicora\Minimalism\Objects\ModelParameters;
 use Exception;
 
 abstract class AbstractIO implements SimpleObjectInterface
@@ -63,9 +64,9 @@ abstract class AbstractIO implements SimpleObjectInterface
             );
         }
 
-        return new $objectType(
-            objectFactory: $this->objectFactory,
-            data: array_is_list($recordset) ? $recordset[0] : $recordset,
+        return $this->createObject(
+            objectType: $objectType,
+            record: array_is_list($recordset) ? $recordset[0] : $recordset,
         );
     }
 
@@ -73,6 +74,7 @@ abstract class AbstractIO implements SimpleObjectInterface
      * @param array $recordset
      * @param string $objectType
      * @return DataObjectInterface[]
+     * @throws Exception
      */
     protected function returnObjectArray(
         array $recordset,
@@ -83,18 +85,38 @@ abstract class AbstractIO implements SimpleObjectInterface
 
         if (array_is_list($recordset)) {
             foreach ($recordset ?? [] as $record) {
-                $response[] = new $objectType(
-                    objectFactory: $this->objectFactory,
-                    data: $record,
+                $response[] = $this->createObject(
+                    objectType: $objectType,
+                    record: $record,
                 );
             }
         } else {
-            $response[] = new $objectType(
-                objectFactory: $this->objectFactory,
-                data: $recordset,
+            $response[] = $this->createObject(
+                objectType: $objectType,
+                record: $recordset,
             );
         }
 
         return $response;
+    }
+
+    /**
+     * @param string $objectType
+     * @param array $record
+     * @return DataObjectInterface
+     * @throws Exception
+     */
+    private function createObject(
+        string $objectType,
+        array $record,
+    ): DataObjectInterface
+    {
+        $modelParameters = new ModelParameters();
+        $modelParameters->addNamedParameter('data', $record);
+
+        return $this->objectFactory->create(
+            className: $objectType,
+            parameters: $modelParameters
+        );
     }
 }
