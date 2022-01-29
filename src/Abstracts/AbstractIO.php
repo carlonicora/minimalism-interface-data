@@ -47,9 +47,10 @@ abstract class AbstractIO implements SimpleObjectInterface
     }
 
     /**
+     * @template InstanceOfType
      * @param array $recordset
-     * @param string $objectType
-     * @return DataObjectInterface
+     * @param class-string<InstanceOfType> $objectType
+     * @return InstanceOfType
      * @throws Exception
      */
     protected function returnSingleObject(
@@ -71,9 +72,10 @@ abstract class AbstractIO implements SimpleObjectInterface
     }
 
     /**
+     * @template InstanceOfType
      * @param array $recordset
-     * @param string $objectType
-     * @return DataObjectInterface[]
+     * @param class-string<InstanceOfType> $objectType
+     * @return InstanceOfType[]
      * @throws Exception
      */
     protected function returnObjectArray(
@@ -101,9 +103,10 @@ abstract class AbstractIO implements SimpleObjectInterface
     }
 
     /**
-     * @param string $objectType
+     * @template InstanceOfType
+     * @param class-string<InstanceOfType> $objectType
      * @param array $record
-     * @return DataObjectInterface
+     * @return InstanceOfType
      * @throws Exception
      */
     private function createObject(
