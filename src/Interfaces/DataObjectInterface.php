@@ -7,11 +7,11 @@ interface DataObjectInterface
 {
     /**
      * DataObjectInterface constructor.
-     * @param ObjectFactory $objectFactory
+     * @param ObjectFactory|null $objectFactory
      * @param array|null $data
      */
     public function __construct(
-        ObjectFactory $objectFactory,
+        ?ObjectFactory $objectFactory=null,
         ?array $data=null,
     );
 
