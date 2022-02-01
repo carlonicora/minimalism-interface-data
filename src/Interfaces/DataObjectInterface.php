@@ -27,4 +27,16 @@ interface DataObjectInterface
      */
     public function export(
     ): array;
+
+    /**
+     * @return bool
+     */
+    public function isNewObject(
+    ): bool;
+
+    /**
+     * @return string
+     */
+    public function getTableInterfaceClass(
+    ): string;
 }
