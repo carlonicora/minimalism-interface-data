@@ -18,7 +18,7 @@ abstract class AbstractDataObject implements DataObjectInterface, SimpleObjectIn
      * @param array|null $data
      */
     public function __construct(
-        protected ObjectFactory $objectFactory,
+        protected ?ObjectFactory $objectFactory = null,
         ?array $data=null,
     )
     {
